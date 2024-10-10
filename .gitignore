@@ -1,0 +1,8 @@
+/.vs
+/.vscode
+/.idea
+/.clion
+
+/build
+/cmake-build-*
+/out
