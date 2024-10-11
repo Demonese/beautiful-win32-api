@@ -58,4 +58,6 @@ namespace win32 {
 	uint32_t getDpiForWindow(WindowHandle* window_handle);
 
 	bool enableNonClientDpiScaling(WindowHandle* window_handle);
+
+	int32_t getSystemMetricsForDpi(int32_t index, uint32_t dpi);
 }

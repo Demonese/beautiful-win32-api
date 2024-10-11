@@ -67,4 +67,13 @@ namespace win32 {
 		}
 		return getDpiForSystem();
 	}
+
+	static ModuleSymbol<decltype(GetSystemMetricsForDpi)> user32_GetSystemMetricsForDpi(user32, "GetSystemMetricsForDpi");
+
+	int32_t getSystemMetricsForDpi(int32_t index, uint32_t dpi) {
+		if (user32_GetSystemMetricsForDpi) {
+			return user32_GetSystemMetricsForDpi.get()(index, dpi);
+		}
+		return GetSystemMetrics(index);
+	}
 }
