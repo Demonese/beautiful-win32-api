@@ -55,6 +55,10 @@ namespace win32 {
 
 	uint32_t scaleByDpi(uint32_t value, uint32_t dpi);
 
+	inline float getScalingFromDpi(uint32_t dpi) {
+		return static_cast<float>(dpi) / static_cast<float>(getUserDefaultScreenDpi());
+	}
+
 	bool setProcessDpiAware();
 
 	enum class ProcessDpiAwareness {
