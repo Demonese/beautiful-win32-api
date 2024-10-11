@@ -36,7 +36,7 @@ namespace win32 {
 		return getDpiForWindow(abi::as<WindowHandle*>(window));
 	}
 
-	bool enableNonClientDpiScaling(::HWND window) {
+	inline bool enableNonClientDpiScaling(::HWND window) {
 		return enableNonClientDpiScaling(abi::as<WindowHandle*>(window));
 	}
 }
