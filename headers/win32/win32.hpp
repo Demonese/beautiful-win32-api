@@ -55,6 +55,27 @@ namespace win32 {
 
 	uint32_t scaleByDpi(uint32_t value, uint32_t dpi);
 
+	bool setProcessDpiAware();
+
+	enum class ProcessDpiAwareness {
+		unaware = 0,
+		system_dpi_aware = 1,
+		per_monitor_dpi_aware = 2,
+	};
+
+	bool setProcessDpiAwareness(ProcessDpiAwareness awareness);
+
+	enum class ProcessDpiAwarenessContext : intptr_t {
+		unaware = -1,
+		system_aware = -2,
+		per_monitor_aware = -3,
+		per_monitor_aware_v2 = -4,
+		unaware_gdi_scaled = -5,
+	};
+
+	// only supports values in ProcessDpiAwarenessContext
+	bool setProcessDpiAwarenessContext(ProcessDpiAwarenessContext context);
+
 	bool adjustWindowRectExForDpi(Rect* rect, uint32_t style, bool menu, uint32_t style_ex, uint32_t dpi);
 
 	inline bool adjustWindowRectExForDpi(Rect& rect, uint32_t style, bool menu, uint32_t style_ex, uint32_t dpi) {

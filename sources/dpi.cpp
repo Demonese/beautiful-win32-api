@@ -18,6 +18,45 @@ namespace win32 {
 		return static_cast<uint32_t>(MulDiv(static_cast<int>(value), static_cast<int>(dpi), USER_DEFAULT_SCREEN_DPI));
 	}
 
+	// Windows Vista
+	static ModuleSymbol<decltype(SetProcessDPIAware)> user32_SetProcessDPIAware(user32, "SetProcessDPIAware");
+
+	bool setProcessDpiAware() {
+		if (user32_SetProcessDPIAware) {
+			return abi::as<bool>(user32_SetProcessDPIAware.get()());
+		}
+		return true;
+	}
+
+	// Windows 8.1
+	static ModuleSymbol<decltype(SetProcessDpiAwareness)> shcore_SetProcessDpiAwareness(shcore, "SetProcessDpiAwareness");
+
+	bool setProcessDpiAwareness(ProcessDpiAwareness awareness) {
+		if (shcore_SetProcessDpiAwareness) {
+			return SUCCEEDED(shcore_SetProcessDpiAwareness.get()(static_cast<PROCESS_DPI_AWARENESS>(awareness)));
+		}
+		return setProcessDpiAware();
+	}
+
+	// Windows 10 1703
+	static ModuleSymbol<decltype(SetProcessDpiAwarenessContext)> user32_SetProcessDpiAwarenessContext(user32, "SetProcessDpiAwarenessContext");
+
+	bool setProcessDpiAwarenessContext(ProcessDpiAwarenessContext context) {
+		if (user32_SetProcessDpiAwarenessContext) {
+			return abi::as<bool>(user32_SetProcessDpiAwarenessContext.get()(reinterpret_cast<DPI_AWARENESS_CONTEXT>(context)));
+		}
+		switch (context) {
+		default:
+			return setProcessDpiAwareness(ProcessDpiAwareness::unaware);
+		case ProcessDpiAwarenessContext::system_aware:
+			return setProcessDpiAwareness(ProcessDpiAwareness::system_dpi_aware);
+		case ProcessDpiAwarenessContext::per_monitor_aware:
+		case ProcessDpiAwarenessContext::per_monitor_aware_v2:
+			return setProcessDpiAwareness(ProcessDpiAwareness::per_monitor_dpi_aware);
+		}
+	}
+
+	// Windows 10 1607
 	static ModuleSymbol<decltype(EnableNonClientDpiScaling)> user32_EnableNonClientDpiScaling(user32, "EnableNonClientDpiScaling");
 
 	bool enableNonClientDpiScaling(WindowHandle* window_handle) {
@@ -27,6 +66,7 @@ namespace win32 {
 		return true;
 	}
 
+	// Windows 10 1607
 	static ModuleSymbol<decltype(AdjustWindowRectExForDpi)> user32_AdjustWindowRectExForDpi(user32, "AdjustWindowRectExForDpi");
 
 	bool adjustWindowRectExForDpi(Rect* rect, uint32_t style, bool menu, uint32_t style_ex, uint32_t dpi) {
@@ -36,6 +76,7 @@ namespace win32 {
 		return abi::as<bool>(AdjustWindowRectEx(abi::as<RECT*>(rect), style, abi::as<BOOL>(menu), style_ex));
 	}
 
+	// Windows 10 1607
 	static ModuleSymbol<decltype(GetDpiForSystem)> user32_GetDpiForSystem(user32, "GetDpiForSystem");
 
 	uint32_t getDpiForSystem() {
@@ -52,6 +93,7 @@ namespace win32 {
 		return USER_DEFAULT_SCREEN_DPI;
 	}
 
+	// Windows 8.1
 	static ModuleSymbol<decltype(GetDpiForMonitor)> shcore_GetDpiForMonitor(shcore, "GetDpiForMonitor");
 
 	uint32_t getDpiForMonitor(MonitorHandle* monitor_handle) {
@@ -65,6 +107,7 @@ namespace win32 {
 		return getDpiForSystem();
 	}
 
+	// Windows 10 1607
 	static ModuleSymbol<decltype(GetDpiForWindow)> user32_GetDpiForWindow(user32, "GetDpiForWindow");
 
 	uint32_t getDpiForWindow(WindowHandle* window_handle) {
@@ -77,6 +120,7 @@ namespace win32 {
 		return getDpiForSystem();
 	}
 
+	// Windows 10 1607
 	static ModuleSymbol<decltype(GetSystemMetricsForDpi)> user32_GetSystemMetricsForDpi(user32, "GetSystemMetricsForDpi");
 
 	int32_t getSystemMetricsForDpi(int32_t index, uint32_t dpi) {
