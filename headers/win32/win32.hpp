@@ -5,7 +5,11 @@
 namespace win32 {
 	std::string to_string(std::wstring_view const& str);
 
+	std::u8string to_u8string(std::wstring_view const& str);
+
 	std::wstring to_wstring(std::string_view const& str);
+
+	std::wstring to_wstring(std::u8string_view const& str);
 
 	struct ModuleHandle;
 
