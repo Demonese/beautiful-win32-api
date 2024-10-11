@@ -5,6 +5,8 @@
 namespace win32 {
 	static Module user32("user32");
 
+	static Module shcore("shcore");
+
 	static ModuleSymbol<decltype(EnableNonClientDpiScaling)> user32_EnableNonClientDpiScaling(user32, "EnableNonClientDpiScaling");
 
 	bool enableNonClientDpiScaling(WindowHandle* window_handle) {
@@ -30,5 +32,30 @@ namespace win32 {
 			return user32_GetDpiForSystem.get()();
 		}
 		return USER_DEFAULT_SCREEN_DPI;
+	}
+
+	static ModuleSymbol<decltype(GetDpiForMonitor)> shcore_GetDpiForMonitor(shcore, "GetDpiForMonitor");
+
+	uint32_t getDpiForMonitor(MonitorHandle* monitor_handle) {
+		if (shcore_GetDpiForMonitor) {
+			UINT x{};
+			[[maybe_unused]] UINT y{};
+			HRESULT const hr = shcore_GetDpiForMonitor.get()(abi::as<HMONITOR>(monitor_handle), MDT_DEFAULT, &x, &y);
+			assert(x == y); // if hit this assert, tell me WHY
+			return SUCCEEDED(hr) ? x : 0;
+		}
+		return getDpiForSystem();
+	}
+
+	static ModuleSymbol<decltype(GetDpiForWindow)> user32_GetDpiForWindow(user32, "GetDpiForWindow");
+
+	uint32_t getDpiForWindow(WindowHandle* window_handle) {
+		if (user32_GetDpiForWindow) {
+			return user32_GetDpiForWindow.get()(abi::as<HWND>(window_handle));
+		}
+		if (HMONITOR monitor = MonitorFromWindow(abi::as<HWND>(window_handle), MONITOR_DEFAULTTONULL)) {
+			return getDpiForMonitor(abi::as<MonitorHandle*>(monitor));
+		}
+		return getDpiForSystem();
 	}
 }

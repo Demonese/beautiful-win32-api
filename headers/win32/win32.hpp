@@ -35,6 +35,8 @@ namespace win32 {
 
 	struct WindowHandle;
 
+	struct MonitorHandle;
+
 	struct Rect {
 		int32_t left;
 		int32_t top;
@@ -45,6 +47,11 @@ namespace win32 {
 	bool adjustWindowRectExForDpi(Rect& rect, uint32_t style, bool menu, uint32_t style_ex, uint32_t dpi);
 
 	uint32_t getDpiForSystem();
+
+	// similar to getDpiForWindow, return 0 if fail
+	uint32_t getDpiForMonitor(MonitorHandle* monitor_handle);
+
+	uint32_t getDpiForWindow(WindowHandle* window_handle);
 
 	bool enableNonClientDpiScaling(WindowHandle* window_handle);
 }
