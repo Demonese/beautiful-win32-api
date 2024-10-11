@@ -7,14 +7,16 @@ namespace win32 {
 
 	std::wstring to_wstring(std::string_view const& str);
 
+	struct ModuleHandle;
+
 	class Module {
 	private:
-		void* handle;
+		ModuleHandle* handle;
 	public:
-		bool isLoaded();
 		void* findSymbolPointer(std::string_view const& name);
 		template<typename T>
 		inline T findSymbol(std::string_view const& name) { return reinterpret_cast<T>(findSymbolPointer(name)); }
+		inline operator bool() { return handle != nullptr; }
 	public:
 		Module(std::string_view const& name);
 		~Module();
