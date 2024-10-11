@@ -31,6 +31,13 @@ namespace win32 {
 		if (user32_GetDpiForSystem) {
 			return user32_GetDpiForSystem.get()();
 		}
+		if (HDC dc = GetDC(NULL)) {
+			int const x = GetDeviceCaps(dc, LOGPIXELSX);
+			[[maybe_unused]] int const y = GetDeviceCaps(dc, LOGPIXELSY);
+			assert(x == y); // if hit this assert, tell me WHY
+			ReleaseDC(NULL, dc);
+			return static_cast<uint32_t>(x);
+		}
 		return USER_DEFAULT_SCREEN_DPI;
 	}
 
