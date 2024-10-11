@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.28)
 project("beautiful_win32_api" CXX)
 
-option(beautiful_win32_api_enable_tests "enable beautiful_win32_api tests" ON)
+option(beautiful_win32_api_enable_tests "enable beautiful_win32_api tests" OFF)
 
 set(M_LIB_OPTS_NAME "beautiful_win32_api_options")
 
