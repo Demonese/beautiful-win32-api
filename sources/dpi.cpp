@@ -2,6 +2,8 @@
 #include "win32/win32.hpp"
 #include "win32/abi.hpp"
 
+// reference: https://github.com/tringi/win32-dpi
+
 namespace win32 {
 	static Module user32("user32");
 
