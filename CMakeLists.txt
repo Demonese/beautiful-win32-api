@@ -18,5 +18,5 @@ set(M_TEST_NAME "test")
 
 add_executable(${M_TEST_NAME})
 target_compile_features(${M_TEST_NAME} PRIVATE cxx_std_20)
-target_sources(${M_TEST_NAME} PRIVATE "tests/test.cpp")
+target_sources(${M_TEST_NAME} PRIVATE "tests/test.cpp" "tests/dpi_awareness.manifest")
 target_link_libraries(${M_TEST_NAME} PRIVATE ${M_LIB_NAME})
