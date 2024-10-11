@@ -20,4 +20,21 @@ namespace win32::abi {
 	static_assert(sizeof(::RECT) == sizeof(Rect));
 	template<> inline ::RECT* as(Rect* value) { return reinterpret_cast<::RECT*>(value); }
 	template<> inline Rect* as(::RECT* value) { return reinterpret_cast<Rect*>(value); }
+
+	inline bool adjustWindowRectExForDpi(::RECT* rect, uint32_t style, bool menu, uint32_t style_ex, uint32_t dpi) {
+		return adjustWindowRectExForDpi(as<Rect*>(rect), style, menu, style_ex, dpi);
+	}
+
+	// similar to getDpiForWindow, return 0 if fail
+	inline uint32_t getDpiForMonitor(::HMONITOR monitor) {
+		return getDpiForMonitor(as<MonitorHandle*>(monitor));
+	}
+
+	inline uint32_t getDpiForWindow(::HWND window) {
+		return getDpiForWindow(as<WindowHandle*>(window));
+	}
+
+	bool enableNonClientDpiScaling(::HWND window) {
+		return enableNonClientDpiScaling(as<WindowHandle*>(window));
+	}
 }

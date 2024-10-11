@@ -20,11 +20,11 @@ namespace win32 {
 
 	static ModuleSymbol<decltype(AdjustWindowRectExForDpi)> user32_AdjustWindowRectExForDpi(user32, "AdjustWindowRectExForDpi");
 
-	bool adjustWindowRectExForDpi(Rect& rect, uint32_t style, bool menu, uint32_t style_ex, uint32_t dpi) {
+	bool adjustWindowRectExForDpi(Rect* rect, uint32_t style, bool menu, uint32_t style_ex, uint32_t dpi) {
 		if (user32_AdjustWindowRectExForDpi) {
-			return abi::as<bool>(user32_AdjustWindowRectExForDpi.get()(abi::as<RECT*>(&rect), style, abi::as<BOOL>(menu), style_ex, dpi));
+			return abi::as<bool>(user32_AdjustWindowRectExForDpi.get()(abi::as<RECT*>(rect), style, abi::as<BOOL>(menu), style_ex, dpi));
 		}
-		return abi::as<bool>(AdjustWindowRectEx(abi::as<RECT*>(&rect), style, abi::as<BOOL>(menu), style_ex));
+		return abi::as<bool>(AdjustWindowRectEx(abi::as<RECT*>(rect), style, abi::as<BOOL>(menu), style_ex));
 	}
 
 	static ModuleSymbol<decltype(GetDpiForSystem)> user32_GetDpiForSystem(user32, "GetDpiForSystem");
