@@ -3,8 +3,7 @@
 #include "win32/abi.hpp"
 
 int main() {
-	HWND hwnd{};
-	auto v1 = win32::abi::as<win32::WindowHandle*>(hwnd);
-
+	win32::Rect rc{ 0, 0, 640, 480 };
+	win32::adjustWindowRectExForDpi(rc, WS_OVERLAPPEDWINDOW, false, 0, USER_DEFAULT_SCREEN_DPI);
 	return 0;
 }

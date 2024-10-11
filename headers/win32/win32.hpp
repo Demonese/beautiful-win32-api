@@ -35,5 +35,14 @@ namespace win32 {
 
 	struct WindowHandle;
 
+	struct Rect {
+		int32_t left;
+		int32_t top;
+		int32_t right;
+		int32_t bottom;
+	};
+
+	bool adjustWindowRectExForDpi(Rect& rect, uint32_t style, bool menu, uint32_t style_ex, uint32_t dpi);
+
 	bool enableNonClientDpiScaling(WindowHandle* window_handle);
 }
