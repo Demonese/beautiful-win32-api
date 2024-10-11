@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.28)
 project("beautiful_win32_api" CXX)
 
+add_compile_options("/utf-8" "/W4" "/sdl")
+
 set(M_LIB_NAME "beautiful_win32_api")
 
 file(GLOB_RECURSE M_PUBLIC RELATIVE ${CMAKE_CURRENT_LIST_DIR} "headers/*.hpp")
