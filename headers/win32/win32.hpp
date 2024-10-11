@@ -59,10 +59,23 @@ namespace win32 {
 
 	uint32_t getDpiForSystem();
 
+	inline float getDpiScalingForSystem() {
+		return static_cast<float>(getDpiForSystem()) / static_cast<float>(getUserDefaultScreenDpi());
+	}
+
 	// similar to getDpiForWindow, return 0 if fail
 	uint32_t getDpiForMonitor(MonitorHandle* monitor_handle);
 
+	// similar to getDpiScalingForSystem, return 0 if fail
+	inline float getDpiScalingForMonitor(MonitorHandle* monitor_handle) {
+		return static_cast<float>(getDpiForMonitor(monitor_handle)) / static_cast<float>(getUserDefaultScreenDpi());
+	}
+
 	uint32_t getDpiForWindow(WindowHandle* window_handle);
+
+	inline float getDpiScalingForWindow(WindowHandle* window_handle) {
+		return static_cast<float>(getDpiForWindow(window_handle)) / static_cast<float>(getUserDefaultScreenDpi());
+	}
 
 	bool enableNonClientDpiScaling(WindowHandle* window_handle);
 

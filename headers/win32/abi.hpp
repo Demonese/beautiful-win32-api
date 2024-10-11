@@ -32,8 +32,17 @@ namespace win32 {
 		return getDpiForMonitor(abi::as<MonitorHandle*>(monitor));
 	}
 
+	// similar to getDpiScalingForSystem, return 0 if fail
+	inline float getDpiScalingForMonitor(::HMONITOR monitor) {
+		return static_cast<float>(getDpiForMonitor(abi::as<MonitorHandle*>(monitor))) / static_cast<float>(getUserDefaultScreenDpi());
+	}
+
 	inline uint32_t getDpiForWindow(::HWND window) {
 		return getDpiForWindow(abi::as<WindowHandle*>(window));
+	}
+
+	inline float getDpiScalingForWindow(::HWND window) {
+		return static_cast<float>(getDpiForWindow(abi::as<WindowHandle*>(window))) / static_cast<float>(getUserDefaultScreenDpi());
 	}
 
 	inline bool enableNonClientDpiScaling(::HWND window) {
