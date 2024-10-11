@@ -44,5 +44,7 @@ namespace win32 {
 
 	bool adjustWindowRectExForDpi(Rect& rect, uint32_t style, bool menu, uint32_t style_ex, uint32_t dpi);
 
+	uint32_t getDpiForSystem();
+
 	bool enableNonClientDpiScaling(WindowHandle* window_handle);
 }

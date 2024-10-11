@@ -22,4 +22,13 @@ namespace win32 {
 		}
 		return abi::as<bool>(AdjustWindowRectEx(abi::as<RECT*>(&rect), style, abi::as<BOOL>(menu), style_ex));
 	}
+
+	static ModuleSymbol<decltype(GetDpiForSystem)> user32_GetDpiForSystem(user32, "GetDpiForSystem");
+
+	uint32_t getDpiForSystem() {
+		if (user32_GetDpiForSystem) {
+			return user32_GetDpiForSystem.get()();
+		}
+		return USER_DEFAULT_SCREEN_DPI;
+	}
 }
