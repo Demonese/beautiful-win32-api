@@ -9,6 +9,15 @@ namespace win32 {
 
 	static Module shcore("shcore");
 
+	int32_t scaleByDpi(int32_t value, uint32_t dpi) {
+		return MulDiv(value, static_cast<int>(dpi), USER_DEFAULT_SCREEN_DPI);
+	}
+
+	uint32_t scaleByDpi(uint32_t value, uint32_t dpi) {
+		assert(value > 0);
+		return static_cast<uint32_t>(MulDiv(static_cast<int>(value), static_cast<int>(dpi), USER_DEFAULT_SCREEN_DPI));
+	}
+
 	static ModuleSymbol<decltype(EnableNonClientDpiScaling)> user32_EnableNonClientDpiScaling(user32, "EnableNonClientDpiScaling");
 
 	bool enableNonClientDpiScaling(WindowHandle* window_handle) {

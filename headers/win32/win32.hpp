@@ -51,6 +51,10 @@ namespace win32 {
 	// USER_DEFAULT_SCREEN_DPI
 	consteval inline uint32_t getUserDefaultScreenDpi() { return 96; }
 
+	int32_t scaleByDpi(int32_t value, uint32_t dpi);
+
+	uint32_t scaleByDpi(uint32_t value, uint32_t dpi);
+
 	bool adjustWindowRectExForDpi(Rect* rect, uint32_t style, bool menu, uint32_t style_ex, uint32_t dpi);
 
 	inline bool adjustWindowRectExForDpi(Rect& rect, uint32_t style, bool menu, uint32_t style_ex, uint32_t dpi) {
