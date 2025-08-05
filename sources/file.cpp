@@ -2,7 +2,6 @@
 #include "win32/win32.hpp"
 #include <cassert>
 #include <Windows.h>
-#include <winrt/base.h>
 #include "win32/abi.hpp"
 
 namespace win32 {
@@ -71,15 +70,6 @@ namespace win32 {
 		WCHAR buffer[MAX_PATH]{};
 		HANDLE handle = FindFirstVolumeMountPointW(volume_name_wide.c_str(), buffer, MAX_PATH);
 		if (handle == INVALID_HANDLE_VALUE) {
-		#ifndef NDEBUG
-			try {
-				winrt::throw_last_error();
-			}
-			catch (winrt::hresult_error const& e) {
-				auto const message = winrt::to_string(e.message());
-				std::printf("[winrt::hresult_error] %s\n", message.c_str());
-			}
-		#endif
 			return nullptr;
 		}
 		volume_mount_point.assign(to_string(buffer));
